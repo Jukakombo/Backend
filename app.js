@@ -1,27 +1,24 @@
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
+
 const app = express();
 dotenv.config();
-app.use(cors(cors()));
-app.use(bodyParser.urlencoded({ extended: true, limit: "5mb" }));
-app.use(bodyParser.json({ limit: "5mb", extended:true }));
+app.use(cors());
+app.use(bodyParser.json({ limit: "10mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("Hello its connected");
+  res.send("Hello Mr Ally");
 });
-
 const PORT = process.env.PORT || 5000;
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URI)
   .then(
-    app.listen(
-        (PORT, () => {
-      console.log(`Your app is running on port ${PORT}`);
-    })
-  ))
+    app.listen(PORT, () => console.log(`Your app is running on port ${PORT}`))
+  )
   .catch((error) => {
     console.log(error);
   });
